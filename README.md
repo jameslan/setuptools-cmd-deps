@@ -1,1 +1,1 @@
-# setuptools-cmd-dep
+# setuptools-cmd-deps
