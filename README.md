@@ -55,14 +55,14 @@ Generally speaking, you already have `distutils.commands` in your `entry_points`
 
 For example, you defined `gernate_py` command as follows,
 
-```toml
+```
 distutils.commands =
     generate_py = command:GeneratePy
 ```
 
 and want it always run before `build_py`, then add `setuptools.cmd_deps` as follows,
 
-```toml
+```
 setuptools.cmd_deps =
     build_py_dep = build_py:generate_py
 ```
@@ -72,14 +72,14 @@ It is just for the syntax.
 For the same reason, if there are multiple dependencies for one command,
 it should use dot `.` as delimiter,
 
-```toml
+```
 setuptools.cmd_deps =
     command_dep = command:cmd1.cmd2
 ```
 
 or you can have multiple rules,
 
-```toml
+```
 setuptools.cmd_deps =
     command_dep1 = command:cmd1
     command_dep2 = command:cmd2
