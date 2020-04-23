@@ -1,0 +1,32 @@
+name: Continuous Integration
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+        python-version:
+          - 3.5
+          - 3.6
+          - 3.7
+          - 3.8
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: pypi deps
+        run: |
+          pip install pipenv
+          pipenv install --dev --python $(python -c "import sys; print(sys.executable)") --skip-lock
+          pipenv run python setup.py install
+      - name: test
+        run: |
+          pipenv run pytest
+          pipenv run flake8
