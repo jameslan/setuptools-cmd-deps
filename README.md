@@ -1,4 +1,5 @@
 # setuptools-cmd-deps
+
 Configure `setuptools` command dependencies easily.
 
 Once a custom `setuptools` command is defined and needs to be run before some build-in command,
@@ -7,9 +8,17 @@ the solution is to override the build-in command to ensure the new custom comman
 For example, if a custom command `genreate_py` is implemented in class `GeneratePy`
 and needs to be run before `build_py`,
 You need to create you own command class `MyBuildPy` and call both `generate_py` and build-in `build_py`.
-Then call `setup` as follows,
+Then override `build_py` command in the invocation of `setuptools.setup` as follows,
 
 ```python
+class GeneratePy(setuptools.Command):
+    ...
+
+
+class MyBuildPy(setuptools.command.build_py.build_py):
+    ...
+
+
 setuptools.setup(
     cmdclass={
         'generate_py': GenereatePy,
@@ -18,13 +27,15 @@ setuptools.setup(
 )
 ```
 
-It can be simplified by using `setuptools-cmd-deps`.
+The implementation of `MyBuildPy` could be eliminated by using `setuptools-cmd-deps`.
 
 ## Command dependency in the project
+
 If the command is just for the project and it won't be shared,
 you could use new setup keyword `cmd_deps` to define the dependencies.
 
 ### Enable setuptools-cmd-deps
+
 - If your `setup.py` will run only after all depending packages are installed,
 add `setuptools-cmd-deps` in your dependency list,
 such as `requirements.txt`, or `Pipfile`.
@@ -43,14 +54,17 @@ setuptools.setup(
 ```
 
 ## Command dependency to be shared
+
 If you want command definition to be used by other project and run before some command,
 specify the dependency in the `setuptools.cmd_deps` section in your `entry_points`.
 
 ### Enable setuptools-cmd-deps for the target
+
 Add `setuptools-cmd-deps` in the `install_requires` option of your `setuptools`,
 so that any project uses your package, will automatically uses `setuptools-cmd-deps`.
 
 ### Define dependency
+
 Generally speaking, you already have `distutils.commands` in your `entry_points`.
 
 For example, you defined `gernate_py` command as follows,

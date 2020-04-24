@@ -9,6 +9,7 @@ fixture-declarative-cmd = {path = "./fixtures/declarative"}
 fixture-custom-cmd = {path = "./fixtures/custom_cmd"}
 flake8 = "*"
 pytest-cov = "*"
+setuptools-scm = "*"
 
 [packages]
 

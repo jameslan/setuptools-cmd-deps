@@ -4,7 +4,7 @@ on:
   - pull_request
 
 jobs:
-  test:
+  ci:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -30,3 +30,5 @@ jobs:
         run: |
           pipenv run pytest
           pipenv run flake8
+      - name: packaging
+        run: pipenv run python setup.py bdist_wheel
